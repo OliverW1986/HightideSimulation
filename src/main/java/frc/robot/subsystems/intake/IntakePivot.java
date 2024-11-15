@@ -3,7 +3,6 @@ package frc.robot.subsystems.intake;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.NeutralOut;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
@@ -13,13 +12,11 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 
 import dev.doglog.DogLog;
-import dev.doglog.DogLogOptions;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -46,14 +43,12 @@ public class IntakePivot extends SubsystemBase {
     private State state = State.STOW;
 
     private final SingleJointedArmSim sim = new SingleJointedArmSim(DCMotor.getFalcon500(1), reduction,
-            0.0322933, Units.inchesToMeters(9.708526), 0, Units.degreesToRadians(110), false,
-            0.0);
+            0.47820244 / 4.0, Units.inchesToMeters(9.708526), 0, Units.degreesToRadians(110), true, 0.0);
 
     public enum State {
         STOW(() -> Degrees.of(0)),
         HOMIMG(() -> Degrees.of(0)),
-        INTAKE(() -> Degrees.of(90)),
-        EXTENDED(() -> Degrees.of(180));
+        INTAKE(() -> Degrees.of(90));
 
         private final Supplier<Angle> positionSetpoint;
 
@@ -85,7 +80,7 @@ public class IntakePivot extends SubsystemBase {
         config.MotionMagic.MotionMagicCruiseVelocity = constraints.maxAcceleration();
 
         config.CurrentLimits.StatorCurrentLimit = statorCurrentLimit;
-        config.CurrentLimits.StatorCurrentLimitEnable = true;
+        config.CurrentLimits.SupplyCurrentLimit = supplyCurrentLimit;
 
         config.MotorOutput.Inverted = inverted ? InvertedValue.Clockwise_Positive
                 : InvertedValue.CounterClockwise_Positive;
@@ -99,7 +94,7 @@ public class IntakePivot extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (state == State.STOW && atGoal()) {
+        if (state == State.STOW && atGoal().getAsBoolean()) {
             pivotMotor.setControl(neutralOut);
         } else if (state == State.HOMIMG) {
             pivotMotor.setControl(voltageOut.withOutput(Volts.of(2.0)));
@@ -110,7 +105,6 @@ public class IntakePivot extends SubsystemBase {
             }
         } else {
             pivotMotor.setControl(motionMagicVoltage.withPosition(state.positionSetpoint.get()));
-            // pivotMotor.set(-0.1);
         }
 
         displayInfo(true);
@@ -120,8 +114,9 @@ public class IntakePivot extends SubsystemBase {
         return Commands.runEnd(() -> this.state = state, () -> this.state = State.STOW, this);
     }
 
-    public boolean atGoal() {
-        return pivotMotor.getPosition().getValue().isNear(state.positionSetpoint.get(), Degrees.of(1));
+    public Trigger atGoal() {
+        return new Trigger(
+                () -> pivotMotor.getPosition().getValue().isNear(state.positionSetpoint.get(), Degrees.of(1)));
     }
 
     private Trigger currentTrigger() {
@@ -133,18 +128,19 @@ public class IntakePivot extends SubsystemBase {
             return;
 
         DogLog.log(this.getClass().getSimpleName() + "/State", state.toString());
-        DogLog.log(this.getClass().getSimpleName() + "/StateSetpoint", state.positionSetpoint.get().in(Degrees));
+        DogLog.log(this.getClass().getSimpleName() + "/AtGoal", atGoal().getAsBoolean());
+
         DogLog.log(this.getClass().getSimpleName() + "/Position", pivotMotor.getPosition().getValue().in(Degrees));
         DogLog.log(this.getClass().getSimpleName() + "/Velocity",
                 pivotMotor.getVelocity().getValue().in(DegreesPerSecond));
         DogLog.log(this.getClass().getSimpleName() + "/StatorCurrent",
                 pivotMotor.getStatorCurrent().getValue().in(Amps));
         DogLog.log(this.getClass().getSimpleName() + "/SupplyCurrent",
-                pivotMotor.getSupplyCurrent().getValue().in(Amps));
-        DogLog.log(this.getClass().getSimpleName() + "/Voltage", pivotMotor.getMotorVoltage().getValue().in(Volts));
-        DogLog.log(this.getClass().getSimpleName() + "/AtGoal", atGoal());
-        DogLog.log(this.getClass().getSimpleName() + "/UpperLimit", sim.hasHitUpperLimit());
-        DogLog.log(this.getClass().getSimpleName() + "/LowerLimit", sim.hasHitLowerLimit());
+                pivotMotor.getStatorCurrent().getValue().in(Amps));
+        DogLog.log(this.getClass().getSimpleName() + "/MotorVoltage",
+                pivotMotor.getMotorVoltage().getValue().in(Volts));
+        DogLog.log(this.getClass().getSimpleName() + "/SupplyVoltage",
+                pivotMotor.getSupplyVoltage().getValue().in(Volts));
     }
 
     @Override
