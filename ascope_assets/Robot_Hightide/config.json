@@ -1,0 +1,43 @@
+{
+    "name": "Tsunami",
+    "sourceUrl": "",
+    "rotations": [
+        {
+            "axis": "x",
+            "degrees": 90
+        },
+        {
+            "axis": "y",
+            "degrees": 0
+        },
+        {
+            "axis": "z",
+            "degrees": 90
+        }
+    ],
+    "position": [
+        0,
+        0,
+        0
+    ],
+    "cameras": [],
+    "components": [
+        {
+            "zeroedRotations": [
+                {
+                    "axis": "x",
+                    "degrees": 180
+                },
+                {
+                    "axis": "z",
+                    "degrees": 90
+                }
+            ],
+            "zeroedPosition": [
+                -0.1175,
+                0.0,
+                0.3
+            ]
+        }
+    ]
+}
