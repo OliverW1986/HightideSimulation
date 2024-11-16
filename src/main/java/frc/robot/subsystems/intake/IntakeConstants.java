@@ -1,5 +1,8 @@
 package frc.robot.subsystems.intake;
 
+import frc.robot.utils.TitaniumUtils.Gains;
+import frc.robot.utils.TitaniumUtils.TrapezoidalConstraints;
+
 public class IntakeConstants {
     public class IntakeRollerConstants {
         public static final int motorId = 21;
@@ -22,11 +25,5 @@ public class IntakeConstants {
 
         public static final Gains gains = new Gains(20.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         public static final TrapezoidalConstraints constraints = new TrapezoidalConstraints(20.0, 60.0);
-    }
-
-    public record Gains(double kP, double kI, double kD, double kS, double kV, double kG) {
-    }
-
-    public record TrapezoidalConstraints(double maxVelocity, double maxAcceleration) {
     }
 }

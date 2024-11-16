@@ -1,14 +1,9 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -29,7 +24,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     DogLog.log("Drive/ZeroedPose", new Pose3d());
-    DogLog.log("Drive/ComponentZeroedPoses", new Pose3d[] { new Pose3d(), new Pose3d(0.5, 0.0, 0.0, new Rotation3d(0, 0.0, 0)), new Pose3d(0.0, 0.0, 0.0, new Rotation3d()) });
+    DogLog.log("Drive/ComponentZeroedPoses", new Pose3d[] { new Pose3d(), new Pose3d(-0.223, 0.0, 0.1368, new Rotation3d(0, 0.0, 0)), new Pose3d(-0.1971, 0.0, 0.15, new Rotation3d()) });
   }
 
   @Override
