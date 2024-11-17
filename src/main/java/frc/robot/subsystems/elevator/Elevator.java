@@ -19,6 +19,9 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import dev.doglog.DogLog;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
@@ -145,16 +148,16 @@ public class Elevator extends SubsystemBase {
     DogLog.log("Elevator/UpperLimit", sim.hasHitUpperLimit());
     DogLog.log("Elevator/LowerLimit", sim.hasHitLowerLimit());
 
-    // Pose3d updatedStageTwoPose = STAGE_TWO_ZEROED_POSE;
+    Pose3d updatedStageTwoPose = ElevatorConstants.STAGE_TWO_ZEROED_POSE;
     // final double stageTwoDistance = 0.5;
 
-    // final double xPos = stageTwoDistance * Math.cos(Units.degreesToRadians(35));
-    // final double zPos = stageTwoDistance * Math.sin(Units.degreesToRadians(35));
+    final double stageTwoDistance = sim.getPositionMeters();
+    final double xPos = stageTwoDistance * Math.cos(Units.degreesToRadians(35));
+    final double zPos = stageTwoDistance * Math.sin(Units.degreesToRadians(35));
 
-    // updatedStageTwoPose = updatedStageTwoPose.plus(new Transform3d(xPos, 0, zPos,
-    // new Rotation3d()));
+    updatedStageTwoPose = updatedStageTwoPose.plus(new Transform3d(xPos, 0.0, zPos, new Rotation3d()));
 
-    // DogLog.log("Elevator/Stage2Pose", updatedStageTwoPose);
+    DogLog.log("Elevator/Stage2Pose", updatedStageTwoPose);
   }
 
   @Override
