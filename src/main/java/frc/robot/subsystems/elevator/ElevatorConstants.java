@@ -1,13 +1,14 @@
 package frc.robot.subsystems.elevator;
 
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.utils.TitaniumUtils.Gains;
 import frc.robot.utils.TitaniumUtils.TrapezoidalConstraints;
 
 public class ElevatorConstants {
-    public static final Transform3d STAGE_ONE_ZEROED_POSE = new Transform3d(-0.223, 0.0, 0.1368, new Rotation3d());
-    public static final Transform3d STAGE_TWO_ZEROED_POSE = new Transform3d(-0.1971, 0.0, 0.15, new Rotation3d());
+    public static final Pose3d STAGE_ONE_ZEROED_POSE = new Pose3d(-0.223, 0.0, 0.225, new Rotation3d());
+    public static final Pose3d STAGE_TWO_ZEROED_POSE = new Pose3d(-0.2, 0.0, 0.2375, new Rotation3d());
 
     public static final int leaderMotorId = 30;
     public static final int followerMotorId = 31;

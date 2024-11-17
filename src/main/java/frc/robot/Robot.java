@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     DogLog.log("Drive/ZeroedPose", new Pose3d());
-    DogLog.log("Drive/ComponentZeroedPoses", new Pose3d[] { new Pose3d(), new Pose3d(-0.223, 0.0, 0.1368, new Rotation3d(0, 0.0, 0)), new Pose3d(-0.1971, 0.0, 0.15, new Rotation3d()) });
+    DogLog.log("Drive/ComponentZeroedPoses", new Pose3d[] { new Pose3d(), new Pose3d(-0.223, 0.0, 0.225, new Rotation3d()), new Pose3d(-0.2, 0.0, 0.2375, new Rotation3d()) });
   }
 
   @Override

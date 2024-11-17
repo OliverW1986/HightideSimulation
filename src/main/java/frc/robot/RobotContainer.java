@@ -7,7 +7,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
@@ -70,7 +69,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return intakePivot.setState(IntakePivot.State.INTAKE);
+        return elevator.setState(Elevator.State.MIDDLE_NODE);
         // return Commands.print("No autonomous command configured");
     }
 }
