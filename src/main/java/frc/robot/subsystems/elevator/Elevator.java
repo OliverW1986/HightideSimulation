@@ -115,7 +115,6 @@ public class Elevator extends SubsystemBase {
       }
     } else {
       leaderMotor.setControl(motionMagicVoltage.withPosition(state.getRotationSetpoint()));
-      // leaderMotor.setControl(voltageOut.withOutput(Volts.of(6.0)));
     }
 
     displayInfo(true);
