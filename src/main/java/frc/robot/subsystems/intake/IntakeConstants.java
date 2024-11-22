@@ -4,9 +4,10 @@ public class IntakeConstants {
     public class IntakeRollerConstants {
         public static final int motorId = 21;
         public static final String CANbus = "*";
-        public static final double reduction = 2.375;
+        public static final double reduction = 1;
 
         public static final double statorCurrentLimit = 40;
+        public static final double supplyCurrentLimit = 20;
 
         public static final boolean inverted = false;
     }
@@ -17,6 +18,7 @@ public class IntakeConstants {
         public static final double reduction = 2.375;
 
         public static final double statorCurrentLimit = 40;
+        public static final double supplyCurrentLimit = 20;
 
         public static final boolean inverted = false;
 
