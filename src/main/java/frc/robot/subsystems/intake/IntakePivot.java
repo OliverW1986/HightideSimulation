@@ -12,6 +12,9 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 
 import dev.doglog.DogLog;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
@@ -127,19 +130,19 @@ public class IntakePivot extends SubsystemBase {
         if (!debug)
             return;
 
-        DogLog.log(this.getClass().getSimpleName() + "/State", state.toString());
-        DogLog.log(this.getClass().getSimpleName() + "/AtGoal", atGoal().getAsBoolean());
+        DogLog.log("IntakePivot/State", state.toString());
+        DogLog.log("IntakePivot/AtGoal", atGoal().getAsBoolean());
 
-        DogLog.log(this.getClass().getSimpleName() + "/Position", pivotMotor.getPosition().getValue().in(Degrees));
-        DogLog.log(this.getClass().getSimpleName() + "/Velocity",
+        DogLog.log("IntakePivot/Position", pivotMotor.getPosition().getValue().in(Degrees));
+        DogLog.log("IntakePivot/Velocity",
                 pivotMotor.getVelocity().getValue().in(DegreesPerSecond));
-        DogLog.log(this.getClass().getSimpleName() + "/StatorCurrent",
+        DogLog.log("IntakePivot/StatorCurrent",
                 pivotMotor.getStatorCurrent().getValue().in(Amps));
-        DogLog.log(this.getClass().getSimpleName() + "/SupplyCurrent",
+        DogLog.log("IntakePivot/SupplyCurrent",
                 pivotMotor.getStatorCurrent().getValue().in(Amps));
-        DogLog.log(this.getClass().getSimpleName() + "/MotorVoltage",
+        DogLog.log("IntakePivot/MotorVoltage",
                 pivotMotor.getMotorVoltage().getValue().in(Volts));
-        DogLog.log(this.getClass().getSimpleName() + "/SupplyVoltage",
+        DogLog.log("IntakePivot/SupplyVoltage",
                 pivotMotor.getSupplyVoltage().getValue().in(Volts));
     }
 
@@ -152,5 +155,9 @@ public class IntakePivot extends SubsystemBase {
 
         pivotMotorSim.setRawRotorPosition(Units.radiansToRotations(sim.getAngleRads()) * reduction);
         pivotMotorSim.setRotorVelocity(Units.radiansToRotations(sim.getVelocityRadPerSec()) * reduction);
+
+        DogLog.log("IntakePivot/Sim/SimPosition", Units.radiansToDegrees(sim.getAngleRads()));
+        DogLog.log("IntakePivot/Sim/SimVelocityRPS", Units.radiansToRotations(sim.getVelocityRadPerSec()));
+        DogLog.log("IntakePivot/Sim/IntakePose", new Pose3d(new Translation3d(), new Rotation3d()));
     }
 }
