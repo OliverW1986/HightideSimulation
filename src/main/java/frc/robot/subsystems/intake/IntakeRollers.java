@@ -34,7 +34,7 @@ public class IntakeRollers extends SubsystemBase {
     private State state = State.IDLE;
 
     private final DCMotorSim sim = new DCMotorSim(
-            LinearSystemId.createDCMotorSystem(DCMotor.getFalcon500(1), 2.9556605e-5, 1), DCMotor.getFalcon500(1));
+            LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 2.9556605e-5, 1), DCMotor.getFalcon500(1));
 
     public enum State {
         IDLE(() -> 0.0),

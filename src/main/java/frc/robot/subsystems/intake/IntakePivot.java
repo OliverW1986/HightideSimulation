@@ -35,7 +35,6 @@ import java.util.function.Supplier;
 
 public class IntakePivot extends SubsystemBase {
     private final TalonFX pivotMotor;
-    private final TalonFXSimState pivotMotorSim;
 
     private final TalonFXConfiguration config;
 
@@ -45,7 +44,7 @@ public class IntakePivot extends SubsystemBase {
 
     private State state = State.STOW;
 
-    private final SingleJointedArmSim sim = new SingleJointedArmSim(DCMotor.getFalcon500(1), reduction,
+    private final SingleJointedArmSim sim = new SingleJointedArmSim(DCMotor.getKrakenX60(1), reduction,
             0.47820244 / 4.0, Units.inchesToMeters(9.708526), 0, Units.degreesToRadians(110), true, 0.0);
 
     public enum State {
@@ -67,7 +66,6 @@ public class IntakePivot extends SubsystemBase {
 
     public IntakePivot() {
         pivotMotor = new TalonFX(motorId, CANbus);
-        pivotMotorSim = pivotMotor.getSimState();
 
         config = new TalonFXConfiguration();
 
@@ -148,6 +146,8 @@ public class IntakePivot extends SubsystemBase {
 
     @Override
     public void simulationPeriodic() {
+        var pivotMotorSim = pivotMotor.getSimState();
+
         pivotMotorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
 
         sim.setInputVoltage(pivotMotorSim.getMotorVoltage());
@@ -158,6 +158,7 @@ public class IntakePivot extends SubsystemBase {
 
         DogLog.log("IntakePivot/Sim/SimPosition", Units.radiansToDegrees(sim.getAngleRads()));
         DogLog.log("IntakePivot/Sim/SimVelocityRPS", Units.radiansToRotations(sim.getVelocityRadPerSec()));
-        DogLog.log("IntakePivot/Sim/IntakePose", new Pose3d(new Translation3d(), new Rotation3d()));
+        DogLog.log("IntakePivot/Sim/IntakePose", new Pose3d(new Translation3d(0.2925, 0, 0.2),
+                new Rotation3d(0, Units.degreesToRadians(-90) + sim.getAngleRads(), 0)));
     }
 }

@@ -73,7 +73,8 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return elevator.setState(Elevator.State.MIDDLE_NODE);
+        // return elevator.setState(Elevator.State.MIDDLE_NODE);
+        return intakePivot.setState(IntakePivot.State.INTAKE);
         // return Commands.print("No autonomous command configured");
     }
 }
